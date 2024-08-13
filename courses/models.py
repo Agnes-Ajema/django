@@ -15,5 +15,6 @@ class Courses(models.Model):
     
     
     def __str__(self):
+        
         return f"{self.course_name} {self.trainer}"
     
