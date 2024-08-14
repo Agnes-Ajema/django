@@ -134,6 +134,18 @@ class StudentDetailView(APIView):
            course_id=request.data.get("course")
            self.enroll_student(student,course_id)
         return Response(status.HTTP_201_ACCEPTED)
+
+    def add_student(self, student,class_name):
+        classes=Class.objects.get(id=class_name)
+        student.classes.add(classes)
+
+    def post(self,request,id):
+        student=Student.objects.get(id=id)
+        action = request.data.get("action")
+        if action == "add":
+            class_name =request.data.get("class")
+            self.add_student(student,class_name)
+        return Response(status.HTTP_201_ACCEPTED)
   
 class ClassDetailView(APIView):
     def get(self,request,id):
@@ -221,4 +233,35 @@ class TeacherDetailView(APIView):
         teachers = Teacher.objects.get(id=id)
         teachers.delete()
         return Response(status=status.HTTP_202_ACCEPTED)
+
+    def assign_course(self,teacher,course_id):
+        courses =Courses.objects.get(id=course_id)
+        teacher.courses.add(courses)
+
+
+    def post(self,request,id):
+        teacher=Teacher.objects.get(id=id)
+        action = request.data.get("action")
+        if action == "assign":
+            course_id =request.data.get("course")
+            self.assign_course(teacher,course_id)
+        return Response(status.HTTP_201_ACCEPTED)
+
+    def assign_class(self,teacher,class_name):
+        classes =Classes.objects.get(id=class_name)
+        teacher.courses.add(courses)
+
+     def post(self,request,id):
+        teacher=Teacher.objects.get(id=id)
+        action = request.data.get("action")
+        if action == "assign":
+            class_name =request.data.get("class")
+            self.assign_class(teacher,class_name)
+        return Response(status.HTTP_201_ACCEPTED)
+
+    
+
+
+
+      
       
