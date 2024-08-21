@@ -26,7 +26,7 @@ class StudentListView(APIView):
             students=students.filter(student_name=student_name)
         if student_nationality:
             students= students.filter(student_nationality=student_nationality)
-        serializer = StudentSerializer(Students,many=True)
+        serializer = MinimalStudentSerializer(Students,many=True)
         return Response(serializer.data)
     
     def post(self, request):
@@ -251,7 +251,7 @@ class TeacherDetailView(APIView):
         classes =Classes.objects.get(id=class_name)
         teacher.courses.add(courses)
 
-     def post(self,request,id):
+    def post(self,request,id):
         teacher=Teacher.objects.get(id=id)
         action = request.data.get("action")
         if action == "assign":
